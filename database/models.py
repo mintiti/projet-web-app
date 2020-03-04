@@ -1,6 +1,12 @@
 from database.database import db
 
 
+# Constants
+SANDWICH = 0
+DRINK = 1
+DESSERT = 2
+MENU = 3
+
 class Sport(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
@@ -27,58 +33,52 @@ class Player(db.Model):
 
 
 # Junction tables
-sandwich_ingredients_junction_table = db.Table('recettes_sandwich')
+items_ingredients_junction_table = db.Table('ingredients_in',
+                                            db.Column('Produit', db.Integer,db.ForeignKey('products.id')),
+                                            db.Column('Ingredient', db.Integer, db.ForeignKey('ingredients.id')))
 
 
-# Food Tables
-class Ingredient(db.Model):
+# Ingredient Table
+class Ingredients(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
 
 
-# Nourriture à la carte
-
-class Sandwich(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+# à la carte food
+class Products(db.Model):
+    id = db.Column(db.Integer, primary_key= True)
     name = db.Column(db.Text)
-    prix = db.Column(db.Float)
+    food_type = db.Column(db.Integer) # Either SANDWICH , DRINK or DESSERT
+    price = db.Column(db.Float)
     stock = db.Column(db.Integer)
-    ingredients = db.relationship('Ingredient', backref='sandwiches', secondary=sandwich_ingredients_junction_table)
-
-
-class Boisson(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text)
-    prix = db.Column(db.Float)
-
-
-class Viennoiserie(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text)
-    prix = db.Column(db.Float)
-
-
+    ingredients = db.relationship('Ingredients', backref = 'Items', secondary = items_ingredients_junction_table)
 # Menus
 class Menu(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    sandwich = db.Column(db.Integer, db.ForeignKey('sandwich.id'))
-    boisson = db.Column(db.Integer, db.ForeignKey('boisson.id'))
-    dessert = db.Column(db.Integer, db.ForeignKey('viennoiserie.id'))
+    sandwich = db.Column(db.Integer, db.ForeignKey('products.id'))
+    boisson = db.Column(db.Integer, db.ForeignKey('products.id'))
+    dessert = db.Column(db.Integer, db.ForeignKey('products.id'))
 
 
 class PrixMenu(db.Model):
-    sandwich_principal = db.Column(db.Integer, db.ForeignKey('sandwich.id'), primary_key=True)
+    sandwich_principal = db.Column(db.Integer, db.ForeignKey('products.id'), primary_key=True)
     prix = db.Column(db.Float)
 
 
 # Commandes
-class Commande(db.Model):
+class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    commande_le = db.Column(db.DateTime)
-    pour_le = db.Column(db.DateTime)
-    livre = db.Column(db.Boolean)
-    commandeur = db.Column(db.Integer, db.ForeignKey('utilisateur.id'))
+    order_date = db.Column(db.DateTime)
+    delivery_date = db.Column(db.DateTime)
+    delivered = db.Column(db.Boolean)
+    ordered_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    paid = db.Column(db.Boolean)
 
-class CommandeItem(db.Model):
-    order_id = db.Column(db.Integer, db.ForeignKey('commande.id'))
-    item = 
+class OrderItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+    item = db.Column(db.Integer, db.ForeignKey('products.id'))
+
+# Users
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key= True)
