@@ -1,0 +1,19 @@
+from .models import *
+from .database import *
+@commit(db)
+def add_products(*args):
+    """
+    takes in a list of products to add, and adds them to the database
+    :param args: a list of new products to add to the database
+    :return: None
+    """
+    for product in args :
+        db.session.add(product)
+        db.session.commit
+        if product.food_type == SANDWICH:
+            new_menu_price_entry(product)
+
+
+def new_menu_price_entry(sandwich):
+    price = 5 if sandwich.price <= 2.1 else 7
+    db.session.add(PrixMenu(sandwich_principal= sandwich.id, prix= price))
