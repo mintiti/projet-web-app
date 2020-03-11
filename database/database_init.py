@@ -1,4 +1,4 @@
-from .database import db
+from .database import db, commit
 from .models import *
 
 sandwiches_dict = {'Jambon Beurre': {'prix': 2.1,
@@ -91,21 +91,37 @@ def initialize_ingredients():
         obj = Ingredients(name=ing)
         ingredient_name_to_instance_dict[ing] = obj
 
-
+@commit(db)
 def initialize_sandwiches():
     for sand in sandwiches_dict:
         sandwich = sandwiches_dict[sand]
         ingredients_in_sandwich = [ingredient_name_to_instance_dict[ing] for ing in sandwich['ingredients']]
         sandwich_instance = Products(name= sand, food_type= SANDWICH, price= sandwich['prix'], stock= sandwich['stock'], ingredients= ingredients_in_sandwich)
         db.session.add(sandwich_instance)
-    db.session.commit()
 
 
-
+@commit(db)
 def initialize_drinks():
     for drink in drink_dict:
         dri = drink_dict[drink]
         ingredients_in_drink = [ingredient_name_to_instance_dict[ing] for ing in dri['ingredients']]
         drink_instance = Products(name= drink, food_type= DRINK, price= dri['prix'], stock= dri['stock'], ingredients= ingredients_in_drink)
         db.session.add(drink_instance)
-    db.session.commit()
+
+@commit(db)
+def initialize_users():
+    user0 = Users(name = "Dolly Prane")
+    db.session.add(user0)
+
+
+@commit(db)
+def initialize_menu_prices():
+    # menu a 5eu si sandwich <= 2.1, 7eu sinon
+    sand_list = Products.query.filter(Products.food_type == SANDWICH).all()
+    for s in sand_list:
+        if s.price <= 2.1:
+            menu_sandwich = PrixMenu(sandwich_principal=s.id, prix= 5)
+        else :
+            menu_sandwich = PrixMenu(sandwich_principal=s.id, prix= 7)
+        db.session.add(menu_sandwich)
+
