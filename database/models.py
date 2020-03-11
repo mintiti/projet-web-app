@@ -82,3 +82,4 @@ class OrderItem(db.Model):
 # Users
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key= True)
+    name = db.Column(db.Text)
