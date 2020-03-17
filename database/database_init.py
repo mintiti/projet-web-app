@@ -66,7 +66,12 @@ dessert_dict = {'Pain au chocolat': {'prix': 1.23,
                 'Pain au chocolat noisette': {'prix': 1.35,
                                               'stock': 10,
                                               'ingredients': []
-                                              }}
+                                              },
+                'Cookie au chocolat au lait': {'prix': 1.35,
+                                              'stock': 10,
+                                              'ingredients': ['Cookie','Chocolat au lait']
+                                              }
+                }
 
 
 def add_ingredients(product_dict, ingredientsList):
@@ -94,14 +99,12 @@ def initialize_ingredients():
 
 @commit(db)
 def initialize_sandwiches():
-    print(sandwiches_dict)
     for sand in sandwiches_dict:
         sandwich = sandwiches_dict[sand]
         ingredients_in_sandwich = [ingredient_name_to_instance_dict[ing] for ing in sandwich['ingredients']]
         sandwich_instance = Products(name=sand, food_type=SANDWICH, price=sandwich['prix'], stock=sandwich['stock'],
                                      ingredients=ingredients_in_sandwich)
         db.session.add(sandwich_instance)
-        print(f"instanciated sandwich {sand}")
 
 
 @commit(db)
