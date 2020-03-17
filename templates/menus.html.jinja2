@@ -1,0 +1,93 @@
+<!-- Template for the sandwich reservation view-->
+{% extends "base.html.jinja2" %}
+{% set active_page = "menus" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row d-flex">
+
+            <div class="col d-flex">
+                <div class="card bg-light flex-fill">
+                    <img class="card-img-top"
+                         src={{ url_for(".static", filename = "img/sandwich-jambon-emmental.jpg") }}>
+                    <div class="card-body">
+                        <h3 class="card-title">Sandwich Jambon-Emmental</h3>
+                        <p class="card-text">
+                        <dl class="row">
+                            <dt class="col-sm-5" id="descr_produit">Ingrédients:</dt>
+                            <dd class="col-sm-7">
+                                <ul>
+                                    <li>Jambon</li>
+                                    <li>Emmental</li>
+                                </ul>
+                            </dd>
+                        </dl>
+
+                        </p>
+                        <div class="row">
+                            <div class="col align-self-start"><select class="custom-select float-left" required>
+                                <option value="">Qté</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select></div>
+                            <div class="col align-self-center">
+                                <p>{{ product.price }}€</p>
+                            </div>
+                            <div class="col align-self-end">
+                                <button type="button" class="btn btn-outline-success float-right">Ajouter au panier
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            {{ create_product_card(product) }}
+
+            <div class="col d-flex">
+                <div class="card bg-light flex-fill">
+                    <img class="card-img-top"
+                         src={{ url_for(".static", filename = "img/sandwich-jambon-emmental.jpg") }}>
+                    <div class="card-body">
+                        <h3 class="card-title">Sandwich Jambon-Emmental</h3>
+                        <p class="card-text">
+                        <dl class="row">
+                            <dt class="col-sm-5" id="descr_produit">Ingrédients:</dt>
+                            <dd class="col-sm-7">
+                                <ul>
+                                    <li>Jambon</li>
+                                    <li>Emmental</li>
+                                </ul>
+                            </dd>
+                        </dl>
+
+                        </p>
+                        <div class="row d-flex">
+                            <div class="col align-self-start"><select class="custom-select float-left" required>
+                                <option value="">Qté</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select></div>
+                            <div class="col align-self-center">
+                                <p>{{ product.price }}€</p>
+                            </div>
+                            <div class="col align-self-end">
+                                <button type="button" class="btn btn-outline-success float-right">Ajouter au panier
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+{% endblock %}
