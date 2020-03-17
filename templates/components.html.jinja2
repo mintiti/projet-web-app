@@ -1,0 +1,62 @@
+{% macro create_product_card(product) %}
+    <div class="col d-flex">
+        <div class="card bg-light flex-fill">
+            <img class="card-img-top"
+                 src='https://via.placeholder.com/800'>
+            <div class="card-body">
+                <h3 class="card-title">{{ product.name }}</h3>
+                <p class="card-text">
+                <dl class="row">
+                    <dt class="col-sm-5" id="descr_produit">Ingrédients:</dt>
+                    <dd class="col-sm-7">
+                        <ul>
+                            {% for ingr in product.ingredients %}
+                                <li>{{ ingr.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </dd>
+                </dl>
+
+                </p>
+                <div class="row">
+                    <div class="col align-self-start"><select class="custom-select float-left" required>
+                        <option value="">Qté</option>
+                        {% for i in range(product.stock) %}
+                            <option value={{ i+1 }}>{{ i + 1 }}</option>
+                        {% endfor %}
+                    </select></div>
+                    <div class="col align-self-auto">
+                        <p class="text-center">{{ product.price }}€</p>
+                    </div>
+                    <div class="col align-self-end">
+                        <button type="button" class="btn btn-outline-success float-right">Ajouter au panier
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endmacro %}
+
+{% macro create_product_row(products) %}
+    <div class="row d-flex">
+        {{ create_product_card(products.pop()) }}
+        {{ create_product_card(products.pop()) }}
+        {{ create_product_card(products.pop()) }}
+    </div>
+{% endmacro %}
+{% macro create_content_block(products) %}
+    {% for _ in products %}
+        {% if products|length >=3 %}
+            {{ create_product_row(products) }}
+        {% endif %}
+    {% endfor %}
+    <div class="row d-flex">
+        {% for product in products %}
+            {{ create_product_card(product) }}
+        {% endfor %}
+    </div>
+{% endmacro %}
