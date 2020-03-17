@@ -10,9 +10,9 @@ def init_database():
 def commit(db): #commit decorator
     def decorated(func):
         def f(*args,**kwargs):
-            func(*args,**kwargs)
+            ret = func(*args, **kwargs)
             db.session.commit()
-            return func(*args,**kwargs)
+            return ret
         return f
     return decorated
 
