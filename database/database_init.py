@@ -2,31 +2,31 @@ from .database import db, commit
 from .models import *
 
 sandwiches_dict = {'Jambon Beurre': {'prix': 2.1,
-                                   'stock': 10,
-                                   'ingredients': ['Jambon', 'Beurre']
+                                     'stock': 10,
+                                     'ingredients': ['Jambon', 'Beurre']
                                      },
-                 'Poulet Caesar': {'prix': 2.5,
-                                   'stock': 10,
-                                   'ingredients': ['Poulet', 'Sauce Caesar']
-                                   },
-                 'Grec': {'prix': 2.5,
-                          'stock': 10,
-                          'ingredients': ['Viande Grec', 'Salade', 'Tomate', 'Ognon']
-                          },
+                   'Poulet Caesar': {'prix': 2.5,
+                                     'stock': 10,
+                                     'ingredients': ['Poulet', 'Sauce Caesar']
+                                     },
+                   'Grec': {'prix': 2.5,
+                            'stock': 10,
+                            'ingredients': ['Viande Grec', 'Salade', 'Tomate', 'Ognon']
+                            },
                    'Double Cheeseburger': {'prix': 2.5,
-                                         'stock': 10,
-                                         'ingredients': ['Steak Haché XXL', 'Fromage de chèvre', 'Tomate', 'Ketchup',
-                                                         'Mayonnaise']
-                                         },
+                                           'stock': 10,
+                                           'ingredients': ['Steak Haché XXL', 'Fromage de chèvre', 'Tomate', 'Ketchup',
+                                                           'Mayonnaise']
+                                           },
                    'IMT Atlantique - Campus Nantes': {'prix': 2.5,
-                                                    'stock': 10,
-                                                    'ingredients': ['Magret de Canard', 'Foie gras',
-                                                                    'Sauce secrète IMTA', "Plein d'amour"]
-                                                    },
+                                                      'stock': 10,
+                                                      'ingredients': ['Magret de Canard', 'Foie gras',
+                                                                      'Sauce secrète IMTA', "Plein d'amour"]
+                                                      },
                    'IMT Atlantique - Campus Brest': {'prix': 0.5,
-                                                   'stock': 10,
-                                                   'ingredients': ['Ananas', 'Beurre', 'Bruine', 'Nuages Gris Maison']
-                                                   }}
+                                                     'stock': 10,
+                                                     'ingredients': ['Ananas', 'Beurre', 'Bruine', 'Nuages Gris Maison']
+                                                     }}
 drink_dict = {'Coca Cola': {'prix': 0.5,
                             'stock': 10,
                             'ingredients': ['Sucre']
@@ -91,13 +91,17 @@ def initialize_ingredients():
         obj = Ingredients(name=ing)
         ingredient_name_to_instance_dict[ing] = obj
 
+
 @commit(db)
 def initialize_sandwiches():
+    print(sandwiches_dict)
     for sand in sandwiches_dict:
         sandwich = sandwiches_dict[sand]
         ingredients_in_sandwich = [ingredient_name_to_instance_dict[ing] for ing in sandwich['ingredients']]
-        sandwich_instance = Products(name= sand, food_type= SANDWICH, price= sandwich['prix'], stock= sandwich['stock'], ingredients= ingredients_in_sandwich)
+        sandwich_instance = Products(name=sand, food_type=SANDWICH, price=sandwich['prix'], stock=sandwich['stock'],
+                                     ingredients=ingredients_in_sandwich)
         db.session.add(sandwich_instance)
+        print(f"instanciated sandwich {sand}")
 
 
 @commit(db)
@@ -105,12 +109,14 @@ def initialize_drinks():
     for drink in drink_dict:
         dri = drink_dict[drink]
         ingredients_in_drink = [ingredient_name_to_instance_dict[ing] for ing in dri['ingredients']]
-        drink_instance = Products(name= drink, food_type= DRINK, price= dri['prix'], stock= dri['stock'], ingredients= ingredients_in_drink)
+        drink_instance = Products(name=drink, food_type=DRINK, price=dri['prix'], stock=dri['stock'],
+                                  ingredients=ingredients_in_drink)
         db.session.add(drink_instance)
+
 
 @commit(db)
 def initialize_users():
-    user0 = Users(name = "Dolly Prane")
+    user0 = Users(name="Dolly Prane")
     db.session.add(user0)
 
 
@@ -120,8 +126,17 @@ def initialize_menu_prices():
     sand_list = Products.query.filter(Products.food_type == SANDWICH).all()
     for s in sand_list:
         if s.price <= 2.1:
-            menu_sandwich = PrixMenu(sandwich_principal=s.id, prix= 5)
-        else :
-            menu_sandwich = PrixMenu(sandwich_principal=s.id, prix= 7)
+            menu_sandwich = PrixMenu(sandwich_principal=s.id, prix=5)
+        else:
+            menu_sandwich = PrixMenu(sandwich_principal=s.id, prix=7)
         db.session.add(menu_sandwich)
 
+
+@commit(db)
+def initialize_desserts():
+    for dessert in dessert_dict:
+        des = dessert_dict[dessert]
+        ingr_in_dessert = [ingredient_name_to_instance_dict[ing] for ing in des['ingredients']]
+        des_instance = Products(name=dessert, food_type=DESSERT, price=des['prix'], stock=des['stock'],
+                                ingredients=ingr_in_dessert)
+        db.session.add(des_instance)
