@@ -122,6 +122,15 @@ def initialize_users():
     user0 = Users(name="Dolly Prane")
     db.session.add(user0)
 
+@commit(db)
+def initialize_order_db():
+    order = Order(order_date=datetime.datetime.today(), delivered= False, ordered_by= 1, paid = False)
+    db.session.add(order)
+
+@commit(db)
+def initialize_order_item():
+    order_item = OrderItem(order_id= 1, item= 1, quantity=1)
+    db.session.add(order_item)
 
 @commit(db)
 def initialize_menu_prices():
