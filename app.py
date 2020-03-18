@@ -103,6 +103,14 @@ def desserts():
     return flask.render_template("desserts.html.jinja2", products = des)
 
 
+@app.route("/cart")
+def cart():
+    pass
+
+@app.route("/addproductcart", methods = ["POST"])
+def add_product_cart():
+    pass
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host= "0.0.0.0")
 
