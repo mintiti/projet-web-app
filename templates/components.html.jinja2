@@ -1,43 +1,47 @@
 {% macro create_product_card(product) %}
-        <div class="col-sm-4 d-flex">
-            <div class="card bg-light flex-fill">
-                <img class="card-img-top"
-                     src='https://via.placeholder.com/800'>
-                <div class="card-body">
-                    <h3 class="card-title">{{ product.name }}</h3>
-                    <p class="card-text">
-                    <dl class="row">
-                        <dt class="col-sm-5" id="descr_produit">Ingrédients:</dt>
-                        <dd class="col-sm-7">
-                            <ul>
-                                {% for ingr in product.ingredients %}
-                                    <li>{{ ingr.name }}</li>
-                                {% endfor %}
-                            </ul>
-                        </dd>
-                    </dl>
+    <div class="col-sm-4 d-flex">
+        <div class="card bg-light flex-fill">
+            <img class="card-img-top"
+                 src='https://via.placeholder.com/800'>
+            <div class="card-body">
+                <h3 class="card-title">{{ product.name }}</h3>
+                <p class="card-text">
+                <dl class="row">
+                    <dt class="col-sm-5" id="descr_produit">Ingrédients:</dt>
+                    <dd class="col-sm-7">
+                        <ul>
+                            {% for ingr in product.ingredients %}
+                                <li>{{ ingr.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </dd>
+                </dl>
 
-                    </p>
-                    <div class="row form-group">
-                        <div class="col align-self-start"><select class="form-control custom-select float-left" required>
-                            <option value="">Qté</option>
+                </p>
+                <form class="form-group" id = "{{ product.id }}" method="post">
+                    <div class="d-flex row form-group">
+                        <div class="col align-self-start flex-column"><select class="form-control custom-select float-left"
+                                                                  name="quantity" required>
+                            {#                            <option value="">Qté</option>#}
                             {% for i in range(product.stock) %}
                                 <option value={{ i+1 }}>{{ i + 1 }}</option>
                             {% endfor %}
                         </select></div>
-                        <div class="col align-self-auto">
+                        <div class="col align-self-auto flex-column">
                             <p class="text-center">{{ product.price }}€</p>
                         </div>
-                        <div class="col align-self-end">
-                            <button type="submit" class="btn btn-outline-success float-right">Ajouter au panier
+                        <div class="col align-self-end flex-column">
+                            <button name = "product_id" value ="{{ product.id }}" type="submit" class="btn btn-outline-success float-right ">Ajouter au panier
                             </button>
                         </div>
 
                     </div>
+                </form>
 
-                </div>
+
             </div>
         </div>
+    </div>
 
 {% endmacro %}
 
