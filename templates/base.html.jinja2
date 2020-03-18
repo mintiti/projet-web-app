@@ -18,6 +18,11 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href={{ url_for('.static', filename = 'css/bootstrap.css') }}>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <!-- Include Font Awesome Stylesheet in Header -->
+    <script src="https://kit.fontawesome.com/67ed166f8f.js" crossorigin="anonymous"></script>
+
     <!-- Our styling -->
 
     <link rel="stylesheet" href={{ url_for('.static', filename = 'css/style.css') }}>
@@ -52,7 +57,17 @@
     {% block content %} {% endblock %}
 </div>
 
-
+<div class="container-fluid">
+    <hr>
+    <div class="text-center center-block">
+        <br/>
+        <a href="https://www.facebook.com/Mintiti"><i id="social-fb" class="fab fa-facebook-square fa-3x social"></i></a>
+        <a href="https://twitter.com/Mintiti"><i id="social-tw" class="fab fa-twitter-square fa-3x social"></i></a>
+        <a href="mailto:ngoc-minh-tri.truong@imt-atlantique.net"><i id="social-em"
+                                                                    class="fas fa-envelope-square fa-3x social"></i></a>
+        <a href="https://www.instagram.com/mintiti/"><i id="social-ig" class="fab fa-instagram-square fa-3x social"></i></a>
+    </div>
+</div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
