@@ -1,6 +1,7 @@
 import flask
 from database.models import *
 from database.database_init import *
+from database import API
 
 app = flask.Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database/database.db"
@@ -16,6 +17,8 @@ def clean():
     initialize_drinks()
     initialize_sandwiches()
     initialize_users()
+    initialize_order_db()
+    initialize_order_item()
     initialize_menu_prices()
 
     return "Cleaned!"
@@ -79,26 +82,35 @@ def home():
     return flask.render_template("base.html.jinja2")
 
 
-@app.route("/sandwichs")
+@app.route("/sandwichs", methods=['GET', "POST"])
 def sandwichs():
+    form = flask.request.form
+    if len(form)> 0:
+        API.add_product_to_order(form)
     sandwiches = Products.query.filter(Products.food_type == SANDWICH).all()
     return flask.render_template("sandwiches.html.jinja2", products=sandwiches)
 
 
-@app.route("/boissons")
+@app.route("/boissons", methods=['GET', "POST"])
 def boissons():
+    form = flask.request.form
+    if len(form)> 0:
+        API.add_product_to_order(form)
     drinks = Products.query.filter(Products.food_type == DRINK).all()
     return flask.render_template("boissons.html.jinja2", products=drinks)
 
 
-@app.route("/menus")
+@app.route("/menus", methods=['GET', "POST"])
 def menus():
     pr = Products.query.filter(Products.id == 5).all()[0]
     return flask.render_template("menus.html.jinja2", product=pr)
 
 
-@app.route("/desserts")
+@app.route("/desserts", methods=['GET', "POST"])
 def desserts():
+    form = flask.request.form
+    if len(form)> 0:
+        API.add_product_to_order(form)
     des = Products.query.filter(Products.food_type == DESSERT).all()
     return flask.render_template("desserts.html.jinja2", products = des)
 
@@ -107,10 +119,7 @@ def desserts():
 def cart():
     pass
 
-@app.route("/addproductcart", methods = ["POST"])
-def add_product_cart():
-    pass
 
 if __name__ == '__main__':
-    app.run(debug=True, host= "0.0.0.0")
+    app.run(debug=True)
 
