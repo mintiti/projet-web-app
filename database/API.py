@@ -18,8 +18,11 @@ def new_menu_price_entry(sandwich):
     price = 5 if sandwich.price <= 2.1 else 7
     db.session.add(PrixMenu(sandwich_principal= sandwich.id, prix= price))
 
+#TODO : add order id tracking
+@commit(db)
+def add_product_to_order(form):
+    orderitem = OrderItem(order_id= 1, item=form['product_id'], quantity= form['quantity'])
+    db.session.add(orderitem)
 
-def add_product_to_order():
-    pass
 
 #TODO : database accessors for sandwiches, drinks, desserts and menus
