@@ -1,11 +1,12 @@
 from database.database import db
-
+import datetime
 
 # Constants
 SANDWICH = 0
 DRINK = 1
 DESSERT = 2
 MENU = 3
+
 
 class Sport(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,7 +35,7 @@ class Player(db.Model):
 
 # Junction tables
 items_ingredients_junction_table = db.Table('ingredients_in',
-                                            db.Column('Produit', db.Integer,db.ForeignKey('products.id')),
+                                            db.Column('Produit', db.Integer, db.ForeignKey('products.id')),
                                             db.Column('Ingredient', db.Integer, db.ForeignKey('ingredients.id')))
 
 
@@ -46,12 +47,14 @@ class Ingredients(db.Model):
 
 # à la carte food
 class Products(db.Model):
-    id = db.Column(db.Integer, primary_key= True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
-    food_type = db.Column(db.Integer) # Either SANDWICH , DRINK or DESSERT
+    food_type = db.Column(db.Integer)  # Either SANDWICH , DRINK or DESSERT
     price = db.Column(db.Float)
     stock = db.Column(db.Integer)
-    ingredients = db.relationship('Ingredients', backref = 'Items', secondary = items_ingredients_junction_table)
+    ingredients = db.relationship('Ingredients', backref='Items', secondary=items_ingredients_junction_table)
+
+
 # Menus
 class Menu(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -69,17 +72,22 @@ class PrixMenu(db.Model):
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_date = db.Column(db.DateTime)
-    delivery_date = db.Column(db.DateTime)
+    delivery_date = db.Column(db.DateTime, nullable=True)
     delivered = db.Column(db.Boolean)
+    validated = db.Column(db.Boolean)
     ordered_by = db.Column(db.Integer, db.ForeignKey('users.id'))
     paid = db.Column(db.Boolean)
+    items = db.relationship("OrderItem")
+
 
 class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     item = db.Column(db.Integer, db.ForeignKey('products.id'))
+    quantity = db.Column(db.Integer)
+
 
 # Users
 class Users(db.Model):
-    id = db.Column(db.Integer, primary_key= True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
