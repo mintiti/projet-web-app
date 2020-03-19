@@ -79,7 +79,7 @@ def test():
 
 @app.route("/")
 def home():
-    return flask.render_template("base.html.jinja2")
+    return flask.render_template("home.html.jinja2")
 
 
 @app.route("/sandwichs", methods=['GET', "POST"])
