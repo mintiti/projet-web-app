@@ -1,5 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 #TitrePage {
     color: white;
+}
+
+
+
+.bg {
+    background-image: url("https://www.imt-atlantique.fr/sites/default/files/%5Bdate%3Acustom%3AY%5D-%5Bdate%3Acustom%3Am%5D/vieetudiante/36624934402_f069307294_k.jpg");
+    /* Half height */
+    height: 100%;
+    filter: blur(4px);
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: scale(1.1);
+
+}
+
+#social-footer{
+    background-blend-mode: overlay;
 }
 
 .card-img-top {
@@ -9,38 +33,67 @@
 }
 
 .social:hover {
-     -webkit-transform: scale(1.1);
-     -moz-transform: scale(1.1);
-     -o-transform: scale(1.1);
- }
- .social {
-     -webkit-transform: scale(0.8);
-     /* Browser Variations: */
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
+}
 
-     -moz-transform: scale(0.8);
-     -o-transform: scale(0.8);
-     -webkit-transition-duration: 0.5s;
-     -moz-transition-duration: 0.5s;
-     -o-transition-duration: 0.5s;
- }
+.social {
+    -webkit-transform: scale(0.8);
+    /* Browser Variations: */
+
+    -moz-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+}
+
 
 /*
     Multicoloured Hover Variations
 */
 
- #social-fb:hover {
-     color: #3B5998;
- }
- #social-tw:hover {
-     color: #4099FF;
- }
- #social-gp:hover {
-     color: #d34836;
- }
- #social-em:hover {
-     color: #f39c12;
- }
+#social-fb:hover {
+    color: #3B5998;
+}
 
- #social-ig:hover {
-     color: #e1306c;
- }
+#social-tw:hover {
+    color: #4099FF;
+}
+
+#social-gp:hover {
+    color: #d34836;
+}
+
+#social-em:hover {
+    color: #f39c12;
+}
+
+#social-ig:hover {
+    color: #e1306c;
+}
+
+
+.btn-white {
+    color: black !important;
+}
+
+h6 {
+    line-height: 1.7;
+}
+
+.rgba-gradient {
+    background: -moz-linear-gradient(45deg, rgba(42, 27, 161, 0.7), rgba(29, 210, 177, 0.7) 100%);
+    background: -webkit-linear-gradient(45deg, rgba(42, 27, 161, 0.7), rgba(29, 210, 177, 0.7) 100%);
+    background: -webkit-gradient(linear, 45deg, from(rgba(42, 27, 161, 0.7)), to(rgba(29, 210, 177, 0.7)));
+    background: -o-linear-gradient(45deg, rgba(42, 27, 161, 0.7), rgba(29, 210, 177, 0.7) 100%);
+    background: linear-gradient(to 45deg, rgba(42, 27, 161, 0.7), rgba(29, 210, 177, 0.7) 100%);
+}
+
+html,
+body,
+header,
+.view {
+    height: 100%;
+}
