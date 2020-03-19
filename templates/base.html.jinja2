@@ -6,7 +6,7 @@
     ( 'desserts' , 'Desserts'),
     ('boissons', 'Boissons'),
     ] -%}
-{% set active_page = active_page|default('index') -%}
+{% set active_page = active_page|default('home') -%}
 
 
 <!doctype html>
@@ -30,10 +30,13 @@
     <title>MySandwich - Réservation</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href={{ url_for("home") }}><span id="brand">MySandwich</span></a>
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
+    <btn type="button" class="btn btn-light order-lg-12 order-0" data-toggle="modal" data-target="#cart"><i
+            class="fas fa-shopping-cart"></i></btn>
+    <a class="navbar-brand order-lg-0 order-7" href={{ url_for("home") }}><span id="brand">MySandwich</span></a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    <button class="navbar-toggler order-lg-1 order-last" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -50,22 +53,48 @@
 
             {% endfor %}
         </ul>
+
+
     </div>
+
+
 </nav>
 
-<div class="container">
-    {% block content %} {% endblock %}
-</div>
+{% if active_page == "home" %}
+    <div class="bg"></div>
+{% endif %}
 
-<div class="container-fluid">
+
+<div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="cart" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                        <h5 class="modal-title" id="VotrePanier">Votre Panier</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                test
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+<div class="container-fluid" id="social-footer">
     <hr>
     <div class="text-center center-block">
         <br/>
-        <a href="https://www.facebook.com/Mintiti"><i id="social-fb" class="fab fa-facebook-square fa-3x social"></i></a>
+        <a href="https://www.facebook.com/Mintiti"><i id="social-fb"
+                                                      class="fab fa-facebook-square fa-3x social"></i></a>
         <a href="https://twitter.com/Mintiti"><i id="social-tw" class="fab fa-twitter-square fa-3x social"></i></a>
         <a href="mailto:ngoc-minh-tri.truong@imt-atlantique.net"><i id="social-em"
                                                                     class="fas fa-envelope-square fa-3x social"></i></a>
-        <a href="https://www.instagram.com/mintiti/"><i id="social-ig" class="fab fa-instagram-square fa-3x social"></i></a>
+        <a href="https://www.instagram.com/mintiti/"><i id="social-ig"
+                                                        class="fab fa-instagram-square fa-3x social"></i></a>
     </div>
 </div>
 
