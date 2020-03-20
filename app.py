@@ -83,8 +83,8 @@ def home():
 
 @app.route("/sandwichs", methods=['GET', "POST"])
 def sandwichs():
-    form = flask.request.form
-    if len(form) > 0:
+    if flask.request.method == 'POST':
+        form = flask.request.form
         API.add_product_to_order(form)
     sandwiches = API.get_sandwiches()
     return flask.render_template("sandwiches.html.jinja2", products=sandwiches)
@@ -92,8 +92,8 @@ def sandwichs():
 
 @app.route("/boissons", methods=['GET', "POST"])
 def boissons():
-    form = flask.request.form
-    if len(form) > 0:
+    if flask.request.method == 'POST':
+        form = flask.request.form
         API.add_product_to_order(form)
     drinks = API.get_drinks()
     return flask.render_template("boissons.html.jinja2", products=drinks)
@@ -112,11 +112,10 @@ def menus():
 
 @app.route("/desserts", methods=['GET', "POST"])
 def desserts():
-    form = flask.request.form
-    if len(form) > 0:
+    if flask.request.method == 'POST':
+        form = flask.request.form
         API.add_product_to_order(form)
     des = API.get_desserts()
-    print(des)
     return flask.render_template("desserts.html.jinja2", products=des)
 
 
