@@ -32,7 +32,6 @@ with app.test_request_context():
 
 @app.route("/test")
 def test():
-
     # # Create two sports
     # judo = Sport(name="judo")
     # football = Sport(name="football")
@@ -85,41 +84,43 @@ def home():
 @app.route("/sandwichs", methods=['GET', "POST"])
 def sandwichs():
     form = flask.request.form
-    if len(form)> 0:
+    if len(form) > 0:
         API.add_product_to_order(form)
-    sandwiches = Products.query.filter(Products.food_type == SANDWICH).all()
+    sandwiches = API.get_sandwiches()
     return flask.render_template("sandwiches.html.jinja2", products=sandwiches)
 
 
 @app.route("/boissons", methods=['GET', "POST"])
 def boissons():
     form = flask.request.form
-    if len(form)> 0:
+    if len(form) > 0:
         API.add_product_to_order(form)
-    drinks = Products.query.filter(Products.food_type == DRINK).all()
+    drinks = API.get_drinks()
     return flask.render_template("boissons.html.jinja2", products=drinks)
 
 
 @app.route("/menus", methods=['GET', "POST"])
 def menus():
-    pr = Products.query.filter(Products.id == 5).all()[0]
-    return flask.render_template("menus.html.jinja2", product=pr)
+    menu_prices_list, sandwich_dict = API.get_menu_prices()
+    drinks = API.get_drinks()
+    des = API.get_desserts()
+    if flask.request.method == 'POST':
+        form = flask.request.form
+        API.add_menu_to_order(form)
+    return flask.render_template("menus.html.jinja2", menus_list=menu_prices_list, sandwich_dict=sandwich_dict, drinks = drinks, des = des)
 
 
 @app.route("/desserts", methods=['GET', "POST"])
 def desserts():
     form = flask.request.form
-    if len(form)> 0:
+    if len(form) > 0:
         API.add_product_to_order(form)
-    des = Products.query.filter(Products.food_type == DESSERT).all()
-    return flask.render_template("desserts.html.jinja2", products = des)
+    des = API.get_desserts()
+    print(des)
+    return flask.render_template("desserts.html.jinja2", products=des)
 
 
-@app.route("/cart")
-def cart():
-    pass
 
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
-
