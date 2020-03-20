@@ -31,10 +31,10 @@
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
+
+    <a class="navbar-brand order-lg-0 order-7" href={{ url_for("home") }}><span id="brand">MySandwich</span></a>
     <btn type="button" class="btn btn-light order-lg-12 order-0" data-toggle="modal" data-target="#cart"><i
             class="fas fa-shopping-cart"></i></btn>
-    <a class="navbar-brand order-lg-0 order-7" href={{ url_for("home") }}><span id="brand">MySandwich</span></a>
-
     <button class="navbar-toggler order-lg-1 order-last" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,17 +60,13 @@
 
 </nav>
 
-{% if active_page == "home" %}
-    <div class="bg"></div>
-{% endif %}
-
 
 <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="cart" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                        <h5 class="modal-title" id="VotrePanier">Votre Panier</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-white" id="VotrePanier">Votre Panier</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -80,8 +76,54 @@
         </div>
     </div>
 </div>
-<div class="container">
+{% if active_page == "home" %}
+    <div class="view">
+        <!-- Mask & flexbox options-->
+        <div class="mask centered">
+            <!-- Content -->
+            <div class="container" id="welcome">
+                <!--Grid row-->
+                <div class="h-100 row">
+                    <!--Grid column-->
+                    <div class="col-md-12 white-text text-center mt-xl-3 mb-4 text-white">
+                        <h1 class="h1-responsive font-weight-bold mb-sm-3">Bienvenue chez <em>MySandwich</em></h1>
+                        <hr id="welcome-separator">
+                        <h6>Réservez dès maintenant votre sandwich !
+                        </h6>
+
+                        <div class="row justify-content-center mt-3">
+                            <button class="btn btn-primary mx-1" onclick="window.location.href = '{{ url_for("menus") }}';">
+                                Menus
+                            </button>
+                            <div class="dropdown mx-1">
+                                <button class="btn btn-outline-light dropdown-toggle" type="button"
+                                        id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">À la carte
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ url_for("sandwichs") }}">Sandwich</a>
+                                    <a class="dropdown-item" href="{{ url_for("boissons") }}">Boissons</a>
+                                    <a class="dropdown-item" href="{{ url_for("desserts") }}">Desserts</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <!--Grid row-->
+            </div>
+            <!-- Content -->
+        </div>
+        <!-- Mask & flexbox options-->
+    </div>
+    <!-- Full Page Intro -->
+    </header>
+{% endif %}
+<div class="container mt-5">
     {% block content %}
+
     {% endblock %}
 </div>
 <div class="container-fluid" id="social-footer">
