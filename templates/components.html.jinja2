@@ -18,10 +18,11 @@
                 </dl>
 
                 </p>
-                <form class="form-group" id = "{{ product.id }}" method="post">
-                    <div class="d-flex row form-group">
-                        <div class="col align-self-start flex-column"><select class="form-control custom-select float-left"
-                                                                  name="quantity" required>
+                <form class="form-group" id="{{ product.id }}" method="post">
+                    <div class="d-flex row form-group justify-content-around">
+                        <div class="col align-self-start flex-column"><select
+                                class="form-control custom-select float-left"
+                                name="quantity" required>
                             {#                            <option value="">Qté</option>#}
                             {% for i in range(product.stock) %}
                                 <option value={{ i+1 }}>{{ i + 1 }}</option>
@@ -30,8 +31,9 @@
                         <div class="col align-self-auto flex-column">
                             <p class="text-center">{{ product.price }}€</p>
                         </div>
-                        <div class="col align-self-end flex-column">
-                            <button name = "product_id" value ="{{ product.id }}" type="submit" class="btn btn-outline-success float-right ">Ajouter au panier
+                        <div class="col-5 align-self-end flex-column">
+                            <button name="product_id" value="{{ product.id }}" type="submit"
+                                    class="btn btn-success float-right ">Ajouter au panier
                             </button>
                         </div>
 
@@ -47,18 +49,18 @@
 
 {% macro create_product_row(products) %}
 
-        {{ create_product_card(products.pop()) }}
-        {{ create_product_card(products.pop()) }}
-        {{ create_product_card(products.pop()) }}
+    {{ create_product_card(products.pop()) }}
+    {{ create_product_card(products.pop()) }}
+    {{ create_product_card(products.pop()) }}
 
 {% endmacro %}
 {% macro create_content_block(products) %}
     <div class="d-flex row">
-    {% for _ in products %}
-        {% if products|length >=3 %}
-            {{ create_product_row(products) }}
-        {% endif %}
-    {% endfor %}
+        {% for _ in products %}
+            {% if products|length >=3 %}
+                {{ create_product_row(products) }}
+            {% endif %}
+        {% endfor %}
 
         {% for product in products %}
             {{ create_product_card(product) }}
@@ -67,9 +69,80 @@
     </div>
 {% endmacro %}
 
-{% macro create_menu_card(sandwich) %}
-    <div class="col-lg-4 col-md-6 col-sm-12  d-flex mt-3">
-    
+{% macro create_menu_card(menu,sandwich_dict, drinks, des) %}
+    <div class="col-lg-4 col-md-6 col-sm-12  d-flex mt-3" id="card-menu-{{ menu.sandwich_principal }}">
+        <div class="card bg-light flex-fill">
+            <img class="card-img-top"
+                 src='https://via.placeholder.com/800'>
+            <div class="card-body">
+                <h3 class="card-title">Menu {{ sandwich_dict[menu.sandwich_principal] }}</h3>
+            </div>
+            <div class="card-footer">
+                <div class="row justify-content-around">
+                    <span class="h4 align-middle">{{ menu.prix }}€</span>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-sandwich">
+                        Commander
+                    </button>
+
+                </div>
+
+
+            </div>
+        </div>
     </div>
 
+    <div class="modal" tabindex="-1" role="dialog" id="modal-sandwich">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title text-white">Menu {{ sandwich_dict[menu.sandwich_principal] }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5>Votre menu :</h5>
+                    <form method="post" id="menu-id">
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="select-drinks">Boisson</label>
+                            </div>
+                            <select class="custom-select" id="select-drinks" name="drink" required>
+                                <option disabled selected value>Choix de boisson ...</option>
+                                {% for dr in drinks %}
+                                    <option value="{{ dr.id }}">{{ dr.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="select-drinks">Dessert</label>
+                            </div>
+                            <select class="custom-select" id="select-dessert" name="dessert" required>
+                                <option disabled selected value>Choix de dessert ...</option>
+                                {% for d in des %}
+                                    <option value="{{ d.id }}">{{ d.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" form="menu-id" name="sandwich" value ={{ menu.sandwich_principal }}>Commander</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endmacro %}
+
+{% macro create_menu_view(menus_list, sandwich_dict, drinks, des) %}
+    {% for menu in menus_list %}
+        {{ create_menu_card(menu,sandwich_dict, drinks,des) }}
+    {% endfor %}
 {% endmacro %}
