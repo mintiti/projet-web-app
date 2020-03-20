@@ -1,4 +1,4 @@
-{% from "components.html.jinja2" import create_product_card, create_product_row, create_content_block %}
+{% from "components.html.jinja2" import create_product_card, create_product_row, create_content_block, create_menu_card, create_menu_view %}
 
 {% set navigation_bar = [
     ( 'menus' , 'Menus'),
@@ -30,11 +30,13 @@
     <title>MySandwich - Réservation</title>
 </head>
 <body>
+<!-- Start navbar -->
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
 
     <a class="navbar-brand order-lg-0 order-7" href={{ url_for("home") }}><span id="brand">MySandwich</span></a>
     <btn type="button" class="btn btn-light order-lg-12 order-0" data-toggle="modal" data-target="#cart"><i
             class="fas fa-shopping-cart"></i></btn>
+
     <button class="navbar-toggler order-lg-1 order-last" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,8 +61,8 @@
 
 
 </nav>
-
-
+<!-- End navbar -->
+<!-- Start cart view -->
 <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="cart" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -76,6 +78,8 @@
         </div>
     </div>
 </div>
+<!-- End cart view -->
+
 {% if active_page == "home" %}
     <div class="view">
         <!-- Mask & flexbox options-->
