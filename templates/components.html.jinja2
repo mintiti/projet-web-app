@@ -1,5 +1,5 @@
 {% macro create_product_card(product) %}
-    <div class="col-sm-4 d-flex">
+    <div class="col-lg-4 col-md-6 col-sm-12  d-flex mt-3">
         <div class="card bg-light flex-fill">
             <img class="card-img-top"
                  src='https://via.placeholder.com/800'>
@@ -46,21 +46,30 @@
 {% endmacro %}
 
 {% macro create_product_row(products) %}
-    <div class="row d-flex">
+
         {{ create_product_card(products.pop()) }}
         {{ create_product_card(products.pop()) }}
         {{ create_product_card(products.pop()) }}
-    </div>
+
 {% endmacro %}
 {% macro create_content_block(products) %}
+    <div class="d-flex row">
     {% for _ in products %}
         {% if products|length >=3 %}
             {{ create_product_row(products) }}
         {% endif %}
     {% endfor %}
-    <div class="row d-flex">
+
         {% for product in products %}
             {{ create_product_card(product) }}
         {% endfor %}
+
     </div>
+{% endmacro %}
+
+{% macro create_menu_card(sandwich) %}
+    <div class="col-lg-4 col-md-6 col-sm-12  d-flex mt-3">
+    
+    </div>
+
 {% endmacro %}
