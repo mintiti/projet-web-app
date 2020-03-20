@@ -9,22 +9,21 @@
 
 
 
-.bg {
+.view {
     background-image: url("https://www.imt-atlantique.fr/sites/default/files/%5Bdate%3Acustom%3AY%5D-%5Bdate%3Acustom%3Am%5D/vieetudiante/36624934402_f069307294_k.jpg");
-    /* Half height */
     height: 100%;
-    filter: blur(4px);
+    backdrop-filter: blur(4px);
     /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    transform: scale(1.1);
 
 }
 
 #social-footer{
     background-blend-mode: overlay;
 }
+
 
 .card-img-top {
     width: 100%;
@@ -47,6 +46,17 @@
     -webkit-transition-duration: 0.5s;
     -moz-transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
+}
+#welcome-separator{
+    color: #ffffff;
+    border-top: 1px solid rgba(255, 255, 255, 0.7);
+}
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
 }
 
 
@@ -74,26 +84,45 @@
     color: #e1306c;
 }
 
-
-.btn-white {
-    color: black !important;
-}
-
-h6 {
-    line-height: 1.7;
-}
-
-.rgba-gradient {
-    background: -moz-linear-gradient(45deg, rgba(42, 27, 161, 0.7), rgba(29, 210, 177, 0.7) 100%);
-    background: -webkit-linear-gradient(45deg, rgba(42, 27, 161, 0.7), rgba(29, 210, 177, 0.7) 100%);
-    background: -webkit-gradient(linear, 45deg, from(rgba(42, 27, 161, 0.7)), to(rgba(29, 210, 177, 0.7)));
-    background: -o-linear-gradient(45deg, rgba(42, 27, 161, 0.7), rgba(29, 210, 177, 0.7) 100%);
-    background: linear-gradient(to 45deg, rgba(42, 27, 161, 0.7), rgba(29, 210, 177, 0.7) 100%);
+#welcome {
+    background-color: rgba(20,23,25,0.7);
+    border-radius: 30px;
 }
 
 html,
 body,
 header,
 .view {
-    height: 100%;
+  height: 100%;
+}
+
+@media (max-width: 740px) {
+  html,
+  body,
+  header,
+  .view {
+    height: 1000px;
+  }
+}
+@media (min-width: 800px) and (max-width: 850px) {
+  html,
+  body,
+  header,
+  .view {
+    height: 650px;
+  }
+}
+
+
+
+.card {
+  background-color: rgba(126, 123, 215, 0.2);
+}
+
+.md-form label {
+  color: #ffffff;
+}
+
+h6 {
+  line-height: 1.7;
 }
