@@ -79,7 +79,7 @@ def test():
 
 @app.route("/")
 def home():
-    return flask.render_template("home.html.jinja2")
+    return flask.render_template("base.html.jinja2")
 
 
 @app.route("/sandwichs", methods=['GET', "POST"])
@@ -121,5 +121,5 @@ def cart():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
 
