@@ -19,11 +19,11 @@
 
                 </p>
                 <form class="form-group" id="{{ product.id }}" method="post">
-                    <div class="d-flex row form-group justify-content-around">
-                        <div class="col align-self-start flex-column"><select
+                    <div class="d-flex row justify-content-around">
+                        <div class="col-4 align-self-start flex-column"><select
                                 class="form-control custom-select float-left"
                                 name="quantity" required>
-                            {#                            <option value="">Qté</option>#}
+                            <option disabled selected value>Qté</option>
                             {% for i in range(product.stock) %}
                                 <option value={{ i+1 }}>{{ i + 1 }}</option>
                             {% endfor %}
@@ -132,7 +132,10 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" form="menu-id" name="sandwich" value ={{ menu.sandwich_principal }}>Commander</button>
+                    <button type="submit" class="btn btn-success" form="menu-id" data-toggle="modal"
+                            data-target="#confirmation" name="sandwich"
+                            value={{ menu.sandwich_principal }}>Commander
+                    </button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
                 </div>
             </div>
@@ -145,4 +148,42 @@
     {% for menu in menus_list %}
         {{ create_menu_card(menu,sandwich_dict, drinks,des) }}
     {% endfor %}
+{% endmacro %}
+
+{% macro create_cart_view() %}
+    <div class="list-group-horizontal">
+
+        <div class="d-flex w-100 justify-content-around list-group-item">
+            <img src='https://via.placeholder.com/50' class="img-thumbnail rounded">
+            <div class="col text-left mx-3"><h5 class="mb-1">NOM_DU_PRODUIT</h5>
+            <p class="mt-2">quantité : 1</p></div>
+
+            <h5>3,00eu</h5>
+        </div>
+    </div>
+    <div class="list-group-horizontal">
+
+        <div class="d-flex w-100 justify-content-around list-group-item">
+            <img src='https://via.placeholder.com/50' class="img-thumbnail rounded">
+            <div class="col text-left mx-3"><h5 class="mb-1">NOM_DU_PRODUIT</h5>
+            <p class="mt-2">description du produit</p></div>
+
+            <h5>3,00eu</h5>
+        </div>
+    </div>
+    <div class="list-group-horizontal">
+
+        <div class="d-flex w-100 justify-content-around list-group-item">
+            <img id = "cart_image" src='https://via.placeholder.com/800' class="img-thumbnail rounded">
+            <div class="col text-left mx-3"><h5 class="mb-1">NOM_DU_PRODUIT</h5>
+            <p class="mt-2">description du produit</p></div>
+
+            <h5>3,00eu</h5>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-end rounded mt-2">
+            <h5 class="mx-2">Total commande:</h5> <h5 class="text-danger mx-4">9,00eu</h5>
+        </div>
+    </div>
 {% endmacro %}
