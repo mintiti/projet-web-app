@@ -8,11 +8,11 @@
 
 <form method="post">
     {{ form.csrf_tocken() }}
-    {{ form.proid.label }}{{ form.proid }}
-    {{ form.proname.label }}{{ form.proname }}
-    {{ form.profood_type.label }}{{ form.profood_type }}
-    {{ form.proprice.label }}{{ form.proprice }}
-    {{ form.prostock.label }}{{ form.prostock }}
+    {{ form.proid.label }}{{ form.proid }}<br>
+    {{ form.proname.label }}{{ form.proname }}<br>
+    {{ form.profood_type.label }}{{ form.profood_type }}<br>
+    {{ form.proprice.label }}{{ form.proprice }}<br>
+    {{ form.prostock.label }}{{ form.prostock }}<br>
     {{ form.submit }}
     {% for message in get_flashed_messages %}
         {{ message }}
