@@ -2,10 +2,9 @@ import flask
 from database.models import *
 from database import API
 from database.database_init import *
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField,  FloatField
 from wtforms.validators import DataRequired
-
 app = flask.Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database/database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
