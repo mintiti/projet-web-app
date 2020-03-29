@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Backend</title>
+</head>
+<body>
+
+<form method="post">
+    {{ form.csrf_tocken() }}
+    {{ form.proid.label }}{{ form.proid }}
+    {{ form.proname.label }}{{ form.proname }}
+    {{ form.profood_type.label }}{{ form.profood_type }}
+    {{ form.proprice.label }}{{ form.proprice }}
+    {{ form.prostock.label }}{{ form.prostock }}
+    {{ form.submit }}
+    {% for message in get_flashed_messages %}
+        {{ message }}
+    {% endfor %}
+
+</form>
+
+<hr>
+<ul>
+  {% for product in products %}
+       <li>{{ product.name }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

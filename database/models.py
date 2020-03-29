@@ -47,6 +47,7 @@ class Ingredients(db.Model):
 
 # à la carte food
 class Products(db.Model):
+    __tablename__='products'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
     food_type = db.Column(db.Integer)  # Either SANDWICH , DRINK or DESSERT

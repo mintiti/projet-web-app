@@ -1,7 +1,10 @@
 import flask
 from database.models import *
-from database.database_init import *
 from database import API
+from database.database_init import *
+from flask_wtf import Form
+from wtforms import StringField, SubmitField, IntegerField,  FloatField
+from wtforms.validators import DataRequired
 
 app = flask.Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database/database.db"
@@ -118,7 +121,20 @@ def desserts():
     des = API.get_desserts()
     return flask.render_template("desserts.html.jinja2", products=des)
 
+class ProductsFrom(FlaskForm):
+    proid=IntegerField('id', validators=[DataRequired()])
+    proname=StringField('name', validators=[DataRequired()])
+    profood_type=IntegerField('food_type', validators=[DataRequired()])
+    proprice=FloatField('price', validators=[DataRequired()])
+    prostock=IntegerField('stock', validators=[DataRequired()])
+    submit=SubmitField('submit')
 
+
+@app.route("/backend", methods=['GET', "POST"])
+def backend():
+    product_form=ProductsFrom()
+    products = Products.query.all()
+    return flask.render_template("bacckend.html", products=products, form=product_form)
 
 
 if __name__ == '__main__':
