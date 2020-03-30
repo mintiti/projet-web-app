@@ -40,6 +40,7 @@ def sandwichs():
     if flask.request.method == 'POST':
         form = flask.request.form
         API.add_product_to_order(form)
+        return flask.redirect(flask.url_for('sandwichs'))
     sandwiches = API.get_sandwiches()
     return flask.render_template("sandwiches.html.jinja2", products=sandwiches)
 
@@ -49,6 +50,7 @@ def boissons():
     if flask.request.method == 'POST':
         form = flask.request.form
         API.add_product_to_order(form)
+        return flask.redirect(flask.url_for('boissons'))
     drinks = API.get_drinks()
     return flask.render_template("boissons.html.jinja2", products=drinks)
 
@@ -61,6 +63,7 @@ def menus():
     if flask.request.method == 'POST':
         form = flask.request.form
         API.add_menu_to_order(form)
+        return flask.redirect(flask.url_for('menus'))
     return flask.render_template("menus.html.jinja2", menus_list=menu_prices_list, sandwich_dict=sandwich_dict,
                                  drinks=drinks, des=des)
 
@@ -70,6 +73,7 @@ def desserts():
     if flask.request.method == 'POST':
         form = flask.request.form
         API.add_product_to_order(form)
+        return flask.redirect(flask.url_for('desserts'))
     des = API.get_desserts()
     return flask.render_template("desserts.html.jinja2", products=des)
 
