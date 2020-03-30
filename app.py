@@ -149,8 +149,7 @@ def backend():
             try:
                 new_products = Products(id=proid0, name=proname0, food_type=profood_type0,
                                         price=proprice0, stock=prostock0)
-                db.session.add(new_products)
-                db.session.commit()
+                API.add_products([new_products])
             except Exception as e:
                 print(e)
                 flash("Error")
