@@ -165,10 +165,10 @@ def backend():
 
 @app.route('/delete_products/<product_id>')
 def delete_product(product_id):
-    product = Products.query.get(product_id)
-    if product:
+    product = API.get_product_by_ID(product_id)
+    if product != None :
         try:
-            db.session.delete(Products)
+            db.session.delete(product)
             db.session.commit()
         except Exception as e:
             print(e)
