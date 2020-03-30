@@ -1,4 +1,5 @@
 import flask
+from flask import flash, request, redirect, url_for
 from database.models import *
 from database import API
 from database.database_init import *
@@ -120,6 +121,7 @@ def desserts():
     des = API.get_desserts()
     return flask.render_template("desserts.html.jinja2", products=des)
 
+
 class ProductsFrom(FlaskForm):
     proid=IntegerField('id', validators=[DataRequired()])
     proname=StringField('name', validators=[DataRequired()])
@@ -131,9 +133,49 @@ class ProductsFrom(FlaskForm):
 
 @app.route("/backend", methods=['GET', "POST"])
 def backend():
-    product_form=ProductsFrom()
+    product_form = ProductsFrom()
+    if product_form.validate_on_submit():
+        proid0 = ProductsFrom.proid.data
+        proname0 = ProductsFrom.proname.data
+        profood_type0 = ProductsFrom.profood_type.data
+        proprice0 = ProductsFrom.proprice.data
+        prostock0 = ProductsFrom.prostock.data
+
+        name0 = Products.query.filter_by(name=proid0).first
+
+        if name0:
+            flash(" Error. Same Product.")
+        else:
+            try:
+                new_products = Products(id=proid0, name=proname0, food_type=profood_type0,
+                                        price=proprice0, stock=prostock0)
+                db.session.add(new_products)
+                db.session.commit()
+            except Exception as e:
+                print(e)
+                flash("Error")
+                db.session.rollback()
+    else:
+        if request.method == 'POST':
+            flash("Error,Incomplete parameters")
+
     products = Products.query.all()
     return flask.render_template("bacckend.html", products=products, form=product_form)
+
+
+@app.route('/delete_products/<product_id>')
+def delete_product(product_id):
+    product = Products.query.get(product_id)
+    if product:
+        try:
+            db.session.delete(Products)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            flash('err delete')
+    else:
+        flash('not found')
+    return redirect(url_for('backend'))
 
 
 if __name__ == '__main__':
