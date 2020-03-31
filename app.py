@@ -29,9 +29,6 @@ db.init_app(app)
 with app.test_request_context():
     clean()
 
-@app.route('/test')
-def test():
-    return 'test page'
 
 @app.route("/")
 def home():
