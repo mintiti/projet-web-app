@@ -22,7 +22,7 @@
 <hr>
 <ul>
   {% for product in products %}
-      <li>{{ product.name }}&nbsp&nbsp{{ product.id }}&nbsp&nbsp{{ product.food_type }}&nbsp&nbsp{{ product.price }}&nbsp&nbsp{{ product.stock }}&nbsp&nbsp{{ product.stock }}&nbsp&nbsp&nbsp&nbsp<a href="{{ url_for("edit", products_id=products.id) }}">Edit</a>&nbsp&nbsp&nbsp&nbsp<a href="{{ url_for("delete_product", product_id=product.id) }}">delete</a></li>
+      <li>{{ product.name }}&nbsp&nbsp{{ product.id }}&nbsp&nbsp{{ product.food_type }}&nbsp&nbsp{{ product.price }}&nbsp&nbsp{{ product.stock }}&nbsp&nbsp{{ product.stock }}&nbsp&nbsp&nbsp&nbsp<a href="{{ url_for("edit", products_id=product.id) }}">Edit</a>&nbsp&nbsp&nbsp&nbsp<a href="{{ url_for("delete_product", product_id=product.id) }}">delete</a></li>
     {% endfor %}
 </ul>
 
