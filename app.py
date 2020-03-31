@@ -127,13 +127,10 @@ def backend():
         food_type = request.form.get('food_type')
         price = request.form.get('price')
         stock = request.form.get('stock')
-        if not title or not food_type or not price or not stock or len(title) > 60 or len(food_type) > 1:
-            flash('Invalid input.')
-            return redirect(url_for('backend'))
         products0 = Products(name=title, food_type=food_type, price=price, stock=stock)
-        db.session.add(products0)
-        db.session.commit()
+        API.add_products([products0])
         flash('Item created')
+        return redirect(url_for("backend"))
 
     products = Products.query.all()
     return flask.render_template("bacckend.html", products=products)
