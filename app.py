@@ -29,10 +29,14 @@ db.init_app(app)
 with app.test_request_context():
     clean()
 
+@app.route('/test')
+def test():
+    return 'test page'
 
 @app.route("/")
 def home():
-    return flask.render_template("base.html.jinja2")
+    cart = API.get_cart_data(1)
+    return flask.render_template("base.html.jinja2", cart = cart)
 
 
 @app.route("/sandwichs", methods=['GET', "POST"])
@@ -41,8 +45,9 @@ def sandwichs():
         form = flask.request.form
         API.add_product_to_order(form)
         return flask.redirect(flask.url_for('sandwichs'))
+    cart = API.get_cart_data(1)
     sandwiches = API.get_sandwiches()
-    return flask.render_template("sandwiches.html.jinja2", products=sandwiches)
+    return flask.render_template("sandwiches.html.jinja2", products=sandwiches, cart = cart)
 
 
 @app.route("/boissons", methods=['GET', "POST"])
@@ -51,8 +56,9 @@ def boissons():
         form = flask.request.form
         API.add_product_to_order(form)
         return flask.redirect(flask.url_for('boissons'))
+    cart = API.get_cart_data(1)
     drinks = API.get_drinks()
-    return flask.render_template("boissons.html.jinja2", products=drinks)
+    return flask.render_template("boissons.html.jinja2", products=drinks, cart = cart)
 
 
 @app.route("/menus", methods=['GET', "POST"])
@@ -64,8 +70,9 @@ def menus():
         form = flask.request.form
         API.add_menu_to_order(form)
         return flask.redirect(flask.url_for('menus'))
+    cart = API.get_cart_data(1)
     return flask.render_template("menus.html.jinja2", menus_list=menu_prices_list, sandwich_dict=sandwich_dict,
-                                 drinks=drinks, des=des)
+                                 drinks=drinks, des=des, cart= cart)
 
 
 @app.route("/desserts", methods=['GET', "POST"])
@@ -74,9 +81,14 @@ def desserts():
         form = flask.request.form
         API.add_product_to_order(form)
         return flask.redirect(flask.url_for('desserts'))
+    cart = API.get_cart_data(1)
     des = API.get_desserts()
-    return flask.render_template("desserts.html.jinja2", products=des)
+    return flask.render_template("desserts.html.jinja2", products=des, cart = cart)
 
+@app.route("/validate/<int:order_id>")
+def validate(order_id):
+    API.validate_order(order_id)
+    return flask.redirect(flask.url_for("home"))
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
