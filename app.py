@@ -31,55 +31,10 @@ with app.test_request_context():
     clean()
 
 
-@app.route("/test")
-def test():
-    # # Create two sports
-    # judo = Sport(name="judo")
-    # football = Sport(name="football")
-    # db.session.add(judo)
-    # db.session.add(football)
-    # db.session.commit()
-    #
-    # # Create three players
-    # player1 = Player(firstname="Jonathan", lastname="Pastor")
-    # player2 = Player(firstname="Hervé", lastname="Dupont")
-    # player3 = Player(firstname="André", lastname="Laroute")
-    # db.session.add(player1)
-    # db.session.add(player2)
-    # db.session.add(player3)
-    # db.session.commit()
-    #
-    # # Create a team with the two players
-    # rocket = Team(name="rocket", sport=judo)
-    # sonette = Team(name="sonette", sport=football)
-    # db.session.add(rocket)
-    # db.session.add(sonette)
-    # db.session.commit()
-    # #
-    # # # Add the two players to the team 'rocket'
-    # # rocket.players.append(player1)
-    # # rocket.players.append(player2)
-    # # db.session.add(rocket)
-    # # # Add the two players to the team 'sonette'
-    # # sonette.players.append(player2)
-    # # sonette.players.append(player3)
-    # # db.session.commit()
-    # # # Remove one player from the team 'sonette'
-    # # sonette.players.remove(player3)
-    # # db.session.add(sonette)
-    # # db.session.commit()
-    #
-    # # Fetch all sports
-    # sports = Sport.query.all()
-    #
-    # return flask.render_template("index.jinja2", sports=sports)
-
-    return flask.render_template("base.html.jinja2")
-
-
 @app.route("/")
 def home():
-    return flask.render_template("base.html.jinja2")
+    cart = API.get_cart_data(1)
+    return flask.render_template("base.html.jinja2", cart = cart)
 
 
 @app.route("/sandwichs", methods=['GET', "POST"])
@@ -87,8 +42,10 @@ def sandwichs():
     if flask.request.method == 'POST':
         form = flask.request.form
         API.add_product_to_order(form)
+        return flask.redirect(flask.url_for('sandwichs'))
+    cart = API.get_cart_data(1)
     sandwiches = API.get_sandwiches()
-    return flask.render_template("sandwiches.html.jinja2", products=sandwiches)
+    return flask.render_template("sandwiches.html.jinja2", products=sandwiches, cart = cart)
 
 
 @app.route("/boissons", methods=['GET', "POST"])
@@ -96,8 +53,10 @@ def boissons():
     if flask.request.method == 'POST':
         form = flask.request.form
         API.add_product_to_order(form)
+        return flask.redirect(flask.url_for('boissons'))
+    cart = API.get_cart_data(1)
     drinks = API.get_drinks()
-    return flask.render_template("boissons.html.jinja2", products=drinks)
+    return flask.render_template("boissons.html.jinja2", products=drinks, cart = cart)
 
 
 @app.route("/menus", methods=['GET', "POST"])
@@ -108,7 +67,10 @@ def menus():
     if flask.request.method == 'POST':
         form = flask.request.form
         API.add_menu_to_order(form)
-    return flask.render_template("menus.html.jinja2", menus_list=menu_prices_list, sandwich_dict=sandwich_dict, drinks = drinks, des = des)
+        return flask.redirect(flask.url_for('menus'))
+    cart = API.get_cart_data(1)
+    return flask.render_template("menus.html.jinja2", menus_list=menu_prices_list, sandwich_dict=sandwich_dict,
+                                 drinks=drinks, des=des, cart= cart)
 
 
 @app.route("/desserts", methods=['GET', "POST"])
@@ -116,9 +78,15 @@ def desserts():
     if flask.request.method == 'POST':
         form = flask.request.form
         API.add_product_to_order(form)
+        return flask.redirect(flask.url_for('desserts'))
+    cart = API.get_cart_data(1)
     des = API.get_desserts()
-    return flask.render_template("desserts.html.jinja2", products=des)
+    return flask.render_template("desserts.html.jinja2", products=des, cart = cart)
 
+@app.route("/validate/<int:order_id>")
+def validate(order_id):
+    API.validate_order(order_id)
+    return flask.redirect(flask.url_for("home"))
 
 @app.route("/backend", methods=['GET', "POST"])
 def backend():

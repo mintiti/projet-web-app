@@ -1,6 +1,6 @@
 from .models import *
 from .database import *
-
+from .utils import CartItem, Cart
 
 @commit(db)
 def add_products(list_products):
@@ -36,6 +36,11 @@ def add_menu_to_order(form):
         o_item = OrderItem(order_id=1, item=form[item], quantity=1)
         db.session.add(o_item)
 
+@commit(db)
+def validate_order(id):
+    order = Order.query.filter(Order.id == id).first()
+    order.validated = True
+
 
 # Database accessors
 def check_stock(func):
@@ -65,21 +70,22 @@ def get_menu_prices():
     return menu_prices_list, sandwich_dict
 
 
-def get_product_img_url(product_id):
-    return 'https://via.placeholder.com/800'
 
 
 def get_cart_data(order_id):
+    """Returns a list of CartItem
+        :arg order_id: the id of the order
+        :return list of CartItem instances"""
+    #prendre la liste des objets dans la commande
     order_item_list = OrderItem.query.filter(OrderItem.order_id == order_id).all()
-    order_item_data = {}
-    img_list = {}
+    cart = Cart()
+    # en chopper la liste de produits correspondante
     for order_item in order_item_list:
-        product = get_product_by_ID(order_item.item)
-        product_dict = {'name': product.name,
-                        'price': product.price}
-        order_item_data[order_item.item] = product_dict
-        img_list[order_item.item] = get_product_img_url(order_item.item)
-    return order_item_list, order_item_data, img_list
+        product = Products.query.filter(Products.id == order_item.item).all()[0]
+        cart_item = CartItem(product.id, product.name, order_item.quantity, product.price, product.food_type)
+        cart.add(cart_item)
+
+    return cart
 
 
 @check_stock
@@ -95,3 +101,5 @@ def get_sandwiches():
 @check_stock
 def get_desserts():
     return Products.query.filter(Products.food_type == DESSERT).all()
+
+
