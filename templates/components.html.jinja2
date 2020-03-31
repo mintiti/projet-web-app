@@ -150,40 +150,22 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro create_cart_view() %}
-    <div class="list-group-horizontal">
+{% macro create_cart_view(cart) %}
+    {% for cart_item in cart %}
+        <div class="list-group-horizontal">
 
-        <div class="d-flex w-100 justify-content-around list-group-item">
-            <img src='https://via.placeholder.com/50' class="img-thumbnail rounded">
-            <div class="col text-left mx-3"><h5 class="mb-1">NOM_DU_PRODUIT</h5>
-            <p class="mt-2">quantité : 1</p></div>
+            <div class="d-flex w-100 justify-content-around list-group-item">
+                <img id="cart_image" src={{ cart_item.img_url }} class="img-thumbnail rounded">
+                <div class="col text-left mx-3"><h5 class="mb-1">{{ cart_item.name }}</h5>
+                    <p class="mt-2"> quantité : {{ cart_item.quantity }} x {{ cart_item.unit_price }}€</p></div>
 
-            <h5>3,00eu</h5>
+                <h5>{{ cart_item.total_price }}€</h5>
+            </div>
         </div>
-    </div>
-    <div class="list-group-horizontal">
-
-        <div class="d-flex w-100 justify-content-around list-group-item">
-            <img src='https://via.placeholder.com/50' class="img-thumbnail rounded">
-            <div class="col text-left mx-3"><h5 class="mb-1">NOM_DU_PRODUIT</h5>
-            <p class="mt-2">description du produit</p></div>
-
-            <h5>3,00eu</h5>
-        </div>
-    </div>
-    <div class="list-group-horizontal">
-
-        <div class="d-flex w-100 justify-content-around list-group-item">
-            <img id = "cart_image" src='https://via.placeholder.com/800' class="img-thumbnail rounded">
-            <div class="col text-left mx-3"><h5 class="mb-1">NOM_DU_PRODUIT</h5>
-            <p class="mt-2">description du produit</p></div>
-
-            <h5>3,00eu</h5>
-        </div>
-    </div>
+    {% endfor %}
     <div class="container">
         <div class="row justify-content-end rounded mt-2">
-            <h5 class="mx-2">Total commande:</h5> <h5 class="text-danger mx-4">9,00eu</h5>
+            <h5 class="mx-2">Total commande:</h5> <h5 class="text-danger mx-4">{{ cart.total_price }}€</h5>
         </div>
     </div>
 {% endmacro %}
