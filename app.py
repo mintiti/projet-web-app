@@ -1,11 +1,9 @@
 import flask
-from flask import flash, request, redirect, url_for
+from flask import flash, request, redirect, url_for, render_template
 from database.models import *
 from database import API
 from database.database_init import *
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField,  FloatField
-from wtforms.validators import DataRequired
+
 app = flask.Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database/database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -122,53 +120,55 @@ def desserts():
     return flask.render_template("desserts.html.jinja2", products=des)
 
 
-class ProductsFrom(FlaskForm):
-    proid=IntegerField('id', validators=[DataRequired()])
-    proname=StringField('name', validators=[DataRequired()])
-    profood_type=IntegerField('food_type', validators=[DataRequired()])
-    proprice=FloatField('price', validators=[DataRequired()])
-    prostock=IntegerField('stock', validators=[DataRequired()])
-    submit=SubmitField('submit')
-
-
 @app.route("/backend", methods=['GET', "POST"])
 def backend():
-    product_form = ProductsFrom()
-    if product_form.validate_on_submit():
-        proid0 = ProductsFrom.proid.data
-        proname0 = ProductsFrom.proname.data
-        profood_type0 = ProductsFrom.profood_type.data
-        proprice0 = ProductsFrom.proprice.data
-        prostock0 = ProductsFrom.prostock.data
-
-        name0 = Products.query.filter_by(name=proid0).first
-
-        if name0:
-            flash(" Error. Same Product.")
-        else:
-            try:
-                new_products = Products(id=proid0, name=proname0, food_type=profood_type0,
-                                        price=proprice0, stock=prostock0)
-                db.session.add(new_products)
-                db.session.commit()
-            except Exception as e:
-                print(e)
-                flash("Error")
-                db.session.rollback()
-    else:
-        if request.method == 'POST':
-            flash("Error,Incomplete parameters")
+    if request.method == 'POST':
+        title = request.form.get('title')
+        food_type = request.form.get('food_type')
+        price = request.form.get('price')
+        stock = request.form.get('stock')
+        if not title or not food_type or not price or not stock or len(title) > 60 or len(food_type) > 1:
+            flash('Invalid input.')
+            return redirect(url_for('backend'))
+        products0 = Products(name=title, food_type=food_type, price=price, stock=stock)
+        db.session.add(products0)
+        db.session.commit()
+        flash('Item created')
 
     products = Products.query.all()
-    return flask.render_template("bacckend.html", products=products, form=product_form)
+    return flask.render_template("bacckend.html", products=products)
+
+
+@app.route('/edit_products/<products_id>', methods=['GET', 'POST'])
+def edit(products_id):
+    products = Products.query.get(products_id)
+
+    if request.method == 'POST':  # 处理编辑表单的提交请求
+        title = request.form.get('title')
+        food_type = request.form.get('food_type')
+        price = request.form.get('price')
+        stock = request.form.get('stock')
+        if not title or not food_type or not price or not stock or len(title) > 60 or len(food_type) > 1:
+            flash('Invalid input.')
+            return redirect(url_for('edit', products_id=products_id))  # 重定向回对应的编辑页面
+
+        products.name = title  # 更新
+        products.food_type = food_type
+        products.price = price
+        products.stock = stock
+        db.session.commit()  # 提交数据库会话
+        flash('Item updated.')
+        return redirect(url_for('backend'))  # 重定向回主页
+
+    return render_template('edit.html', products=products)  # 传入被编辑的电影记录
 
 
 @app.route('/delete_products/<product_id>')
 def delete_product(product_id):
-    product = Products.query.get(product_id)
-    if product:
+    product = API.get_product_by_ID(product_id)
+    if product != None :
         try:
-            db.session.delete(Products)
+            db.session.delete(product)
             db.session.commit()
         except Exception as e:
             print(e)
