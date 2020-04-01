@@ -64,6 +64,36 @@ class Cart:
             self.append(cart_item)
 
 
+class OrderProduct:
+    def __init__(self,name,quantity, unit_price, order_item_id):
+        self.order_item_id = order_item_id
+        self.name = name
+        self.quantity = quantity
+        self.unit_price = unit_price
+
+    @property
+    def total_price(self):
+        return self.quantity * self.unit_price
+
+class BackendOrder:
+    def __init__(self, order_list = None):
+        self.products = []
+        if order_list != None :
+            for item in order_list:
+                self.add(item)
+    @property
+    def total_price(self):
+        S= 0
+        for i in self:
+            S+= i.total_price
+        return S
+
+    def __iter__(self):
+        return iter(self.products)
+
+    def add(self, item):
+        assert  isinstance(item, OrderProduct), "Your item must be of type OrderProduct"
+        self.products.append(item)
 
 
 if __name__ == '__main__':

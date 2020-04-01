@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="{{ url_for('static',filename='backend.css') }}">
+    {% for message in get_flashed_messages() %}
+    <div class="alert">{{ message }}</div>
+{% endfor %}
+<h2>...</h2>
+    <title>Backend</title>
+</head>
+<body>
+
+<form method="post">
+    Name <input type="text" name="title" autocomplete="off" required><span class="float-right"><br>
+    food_type <input type="text" name="food_type" autocomplete="off" required><br>
+    Price <input type="text" name="price" autocomplete="off" required><br>
+    Stock <input type="text" name="stock" autocomplete="off" required><br>
+    <input class="btn" type="submit" name="submit" value="Add">
+
+</form>
+<hr>
+<ul>
+  {% for product in products %}
+      <li>{{ product.name }}&nbsp&nbsp{{ product.id }}&nbsp&nbsp{{ product.food_type }}&nbsp&nbsp{{ product.price }}&nbsp&nbsp{{ product.stock }}&nbsp&nbsp{{ product.stock }}&nbsp&nbsp&nbsp&nbsp<a href="{{ url_for("edit", products_id=product.id) }}">Edit</a>&nbsp&nbsp&nbsp&nbsp<a href="{{ url_for("delete_product", product_id=product.id) }}">delete</a></li>
+    {% endfor %}
+</ul>
+
+<a href=" {{ url_for("orders") }}">Consulter les commandes</a>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<h3>Edit item</h3>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% for message in get_flashed_messages() %}
+    <div class="alert">{{ message }}</div>
+{% endfor %}
+<h2>...</h2>
+    <title>Backend</title>
+</head>
+<body>
+<form method="post">
+    Name <input type="text" name="title" autocomplete="off" required value="{{ products.name }}"><br>
+    food_type <input type="text" name="food_type" autocomplete="off" required value="{{ products.food_type }}"><br>
+    Price <input type="text" name="price" autocomplete="off" required value="{{ products.price }}"><br>
+    Stock <input type="text" name="stock" autocomplete="off" required value="{{ products.stock }}"><br>
+    <input class="btn" type="submit" name="submit" value="Add">
+    <input class="btn" type="submit" name="submit" value="Update">
+</form>

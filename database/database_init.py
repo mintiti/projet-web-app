@@ -126,7 +126,10 @@ def initialize_users():
 def initialize_order_db():
     order = Order(order_date=datetime.datetime.today(), delivered= False, ordered_by= 1, paid = False)
     db.session.add(order)
-
+    order = Order(order_date=datetime.datetime.today(), delivered= True,validated= True, ordered_by= 1, paid = True)
+    db.session.add(order)
+    order = Order(order_date=datetime.datetime.today(), delivered= False,validated= True, ordered_by= 1, paid = True)
+    db.session.add(order)
 @commit(db)
 def initialize_order_item():
     order_item = OrderItem(order_id= 1, item= 1, quantity=1)

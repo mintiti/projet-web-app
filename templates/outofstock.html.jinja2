@@ -1,0 +1,34 @@
+{% extends "base.html.jinja2" %}
+{% set active_page = "home" %}
+
+{% block error %}
+
+    <div class="view">
+        <!-- Mask & flexbox options-->
+        <div class="mask centered">
+            <!-- Content -->
+            <div class="container" id="welcome">
+                <!--Grid row-->
+                <div class="h-100 row">
+                    <!--Grid column-->
+                    <div class="col-md-12 white-text text-center mt-xl-3 mb-4 text-white">
+                        <h1 class="h1-responsive font-weight-bold mb-sm-3">Nous sommes désolés</h1>
+                        <hr id="welcome-separator">
+                        <h6>Un des articles que vous avez commandé n'est plus en stock
+                        </h6>
+
+
+
+
+                    </div>
+
+                </div>
+                <!--Grid row-->
+            </div>
+            <!-- Content -->
+        </div>
+        <!-- Mask & flexbox options-->
+    </div>
+    <!-- Full Page Intro -->
+    </header>
+{% endblock %}
