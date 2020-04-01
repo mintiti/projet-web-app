@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href={{ url_for('.static', filename = 'css/bootstrap.css') }}>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <!-- Include Font Awesome Stylesheet in Header -->
+    <script src="https://kit.fontawesome.com/67ed166f8f.js" crossorigin="anonymous"></script>
+
+    <!-- Our styling -->
+
+    <link rel="stylesheet" href={{ url_for('.static', filename = 'css/style.css') }}>
+
+    <title>MySandwich - backend - gestion des commandes</title>
+</head>
+<body>
+
+<div class="container-fluid">
+<div class="row">
+    <a href={{ url_for("orders") }}>Revenir</a>
+</div>
+    <form method="post" id="0">
+        <div class="form-check form-check-inline">
+            {% if order.delivered %}
+                <input class="form-check-input active" type="checkbox" name="delivered" value="True" checked>
+            {% else %}
+                <input class="form-check-input" type="checkbox" name="delivered" value="True">
+            {% endif %}
+            <label class="form-check-label" for="inlineCheckbox1">Livré</label>
+        </div>
+        <div class="form-check form-check-inline">
+            {% if order.paid %}
+            <input class="form-check-input active" type="checkbox" name="paid" value="True" checked>
+            {% else %}
+            <input class="form-check-input" type="checkbox" name="paid" value="True">
+            {% endif %}
+            <label class="form-check-label" for="inlineCheckbox1">Payé</label>
+        </div>
+
+
+        <button class="btn btn-success" type="submit">Envoyer</button>
+    </form>
+
+    <table class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">Produit</th>
+            <th scope="col">Qté</th>
+            <th scope="col">Prix unitaire</th>
+            <th scope="col">Prix total</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        {% for product in order_list %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.unit_price }}€</td>
+                <td>{{ product.total_price }}€</td>
+                <td>
+                    <a href={{ url_for("delete_order_item", order_id = order_id,order_item_id = product.order_item_id) }}>
+                        <p class="text-danger">Supprimer</p></a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div class="row justify-content-end">
+        <h4 class="text-danger mx-2">Prix Total<span class="mx-3">{{ order_list.total_price }}€</span></h4>
+
+    </div>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>
